@@ -3,10 +3,13 @@
   --dark-blue: #1f1f3d;
   --fcc-blue: #2b2b4d;
   --light-yellow: #ffd700;
+  --light-yellow-hover: #ffe740;
   --dark-yellow: #ffa500;
   --light-pink: #ffb6c1;
+  --light-pink-hover: #ff9aaa;
   --dark-red: #8b0000;
   --light-green: #90ee90;
+  --error-red: #ff6b6b;
 }
 
 body {
@@ -41,11 +44,76 @@ legend {
   flex-direction: column;
 }
 
+/* ── Entry row with delete button ─────────────────────────────────────────── */
+
+.entry-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.entry-fields {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.entry-fields label,
+.entry-fields input {
+  margin-bottom: 6px;
+}
+
+.delete-entry {
+  flex-shrink: 0;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0 6px;
+  background-color: var(--light-pink);
+  border: 2px solid var(--dark-red);
+  border-radius: 4px;
+  color: var(--dark-blue);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+  margin-bottom: 6px;
+}
+
+.delete-entry:hover {
+  background-color: var(--light-pink-hover);
+}
+
+.delete-entry:focus-visible {
+  outline: 3px solid var(--light-yellow);
+  outline-offset: 2px;
+}
+
+.delete-entry:active {
+  transform: scale(0.92);
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+
 button {
   cursor: pointer;
   text-decoration: none;
   background-color: var(--light-yellow);
   border: 2px solid var(--dark-yellow);
+  border-radius: 4px;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+button:hover:not(.delete-entry) {
+  background-color: var(--light-yellow-hover);
+}
+
+button:focus-visible {
+  outline: 3px solid var(--light-grey);
+  outline-offset: 2px;
+}
+
+button:active:not(.delete-entry) {
+  transform: scale(0.97);
 }
 
 button,
@@ -53,6 +121,23 @@ input,
 select {
   min-height: 24px;
   color: var(--dark-blue);
+}
+
+/* ── Inputs & selects ─────────────────────────────────────────────────────── */
+
+input,
+select {
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 2px 6px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--light-yellow);
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
 }
 
 fieldset,
@@ -63,10 +148,27 @@ select {
   margin-bottom: 10px;
 }
 
+/* ── Output panel ─────────────────────────────────────────────────────────── */
+
 .output {
   border: 2px solid var(--light-grey);
   padding: 10px;
   text-align: center;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.output:not(.hide) {
+  animation: fadeSlideIn 0.25s ease forwards;
 }
 
 .hide {
@@ -76,12 +178,23 @@ select {
 .output span {
   font-weight: bold;
   font-size: 1.2em;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
 }
 
 .surplus {
-  color: var(--light-pink);
+  color: var(--dark-blue);
+  background-color: var(--light-pink);
 }
 
 .deficit {
-  color: var(--light-green);
+  color: var(--dark-blue);
+  background-color: var(--light-green);
+}
+
+.error-message {
+  color: var(--error-red);
+  font-weight: bold;
+  margin: 0;
 }
